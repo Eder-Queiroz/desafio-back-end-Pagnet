@@ -1,0 +1,33 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model CNAB {
+    id        Int      @id @default(autoincrement())
+    tipo      Tipo     @relation(fields: [tipo_id], references: [id])
+    tipo_id   Int
+    data      DateTime
+    valor     Float
+    cpf       String
+    cartao    String
+    hora      DateTime
+    dono_loja String
+    nome_loja String
+
+    @@map("CNAB")
+}
+
+model Tipo {
+    id        Int    @id @default(autoincrement())
+    descricao String
+    natureza  String
+    sinal     String
+    cnab      CNAB[]
+
+    @@map("Tipo")
+}
